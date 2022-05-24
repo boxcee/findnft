@@ -34,7 +34,7 @@ const Home: NextPage = () => {
     setInput(event.target.value);
   };
 
-  const onClickButton = () => {
+  const onClickButtonLoad = () => {
     setLoading(true);
     soon.getNftsByCollections([input])
       .then(nfts => {
@@ -50,6 +50,10 @@ const Home: NextPage = () => {
     }));
   };
 
+  const onClickButtonClear = () => {
+    setSelect({});
+  };
+
   const properties = buildPropertiesMap(nfts);
 
   const getPropertiesFilter = () => (
@@ -61,6 +65,7 @@ const Home: NextPage = () => {
           ))}
         </select>
       ))}
+      <button onClick={onClickButtonClear}>clear</button>
     </div>
   );
 
@@ -106,7 +111,7 @@ const Home: NextPage = () => {
           <>
             <p>
               <input type="text" value={input} onChange={onChangeInput} />
-              <button onClick={onClickButton}>load</button>
+              <button onClick={onClickButtonLoad}>load</button>
             </p>
             {propertiesLoaded ? getPropertiesFilter() : null}
             {filteredLoaded ? getFilteredItems() : null}
