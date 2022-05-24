@@ -110,7 +110,7 @@ const Home: NextPage = () => {
           <p>Loading...</p> :
           <>
             <p>
-              <input type="text" value={input} onChange={onChangeInput} />
+              <input type="text" value={input} placeholder="paste collection address" onChange={onChangeInput} />
               <button onClick={onClickButtonLoad}>load</button>
             </p>
             {propertiesLoaded ? getPropertiesFilter() : null}
