@@ -82,8 +82,6 @@ const Home: NextPage = () => {
     })
     .sort((a, b) => ((a.available && a.availablePrice ? a.availablePrice : a.price) - (b.available && b.availablePrice ? b.availablePrice : b.price)));
 
-  console.log(filtered.filter(nft => nft.name.includes('4784')));
-
   const getFilteredItems = () => (
     <ul>
       {filtered.map(getFilteredItem)}
