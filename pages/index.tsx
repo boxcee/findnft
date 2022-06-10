@@ -12,12 +12,14 @@ const buildPropertiesMap = (nfts: Nft[]) => {
     .filter(nft => !nft.placeholderNft)
     .map(nft => nft.properties)
     .reduce((red, properties) => {
-      for (const key of Object.keys(properties)) {
-        const {value} = properties[key];
-        if (red[key] && !red[key].includes(value)) {
-          red[key] = [...red[key], value];
-        } else if (!red[key]) {
-          red[key] = [value];
+      if (properties) {
+        for (const key of Object.keys(properties)) {
+          const {value} = properties[key];
+          if (red[key] && !red[key].includes(value)) {
+            red[key] = [...red[key], value];
+          } else if (!red[key]) {
+            red[key] = [value];
+          }
         }
       }
       return red;
@@ -113,7 +115,7 @@ const Home: NextPage = () => {
               <input type="text" value={input} placeholder="paste collection address" onChange={onChangeInput} />
               <button onClick={onClickButtonLoad}>load</button>
             </p>
-            {propertiesLoaded ? getPropertiesFilter() : null}
+            {propertiesLoaded ? getPropertiesFilter() : <>NFTs have no properties</>}
             {filteredLoaded ? getFilteredItems() : null}
           </>
         }
