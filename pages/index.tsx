@@ -31,6 +31,7 @@ const Home: NextPage = () => {
   const [input, setInput] = useState('');
   const [nfts, setNfts] = useState([] as Nft[]);
   const [select, setSelect] = useState({} as { [key: string]: string });
+  const [loaded, setLoaded] = useState(false);
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInput(event.target.value);
@@ -41,6 +42,7 @@ const Home: NextPage = () => {
     soon.getNftsByCollections([input])
       .then(nfts => {
         setNfts(nfts);
+        setLoaded(true);
         setLoading(false);
       });
   };
@@ -115,7 +117,8 @@ const Home: NextPage = () => {
               <input type="text" value={input} placeholder="paste collection address" onChange={onChangeInput} />
               <button onClick={onClickButtonLoad}>load</button>
             </p>
-            {propertiesLoaded ? getPropertiesFilter() : <>NFTs have no properties</>}
+            {propertiesLoaded ? getPropertiesFilter() : null}
+            {!propertiesLoaded && loaded ? <>NFTs have no properties</> : null}
             {filteredLoaded ? getFilteredItems() : null}
           </>
         }
