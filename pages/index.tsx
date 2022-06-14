@@ -1,9 +1,10 @@
 import type {NextPage} from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-import {ChangeEvent, useState} from 'react';
+import {ChangeEvent, useMemo, useState} from 'react';
 import {Soon} from 'soonaverse';
 import {Nft} from 'soonaverse/dist/interfaces/models/nft';
+import getMappedComponent from '../components/mapper';
 
 const soon = new Soon();
 
@@ -98,8 +99,11 @@ const Home: NextPage = () => {
   );
 
   const propertiesLoaded = Object.keys(properties).length > 0;
-
   const filteredLoaded = filtered.length > 0 && Object.keys(select).length > 0;
+  const mappedComponent = useMemo(() => {
+    const MappedComponent = getMappedComponent(input);
+    return <MappedComponent />;
+  }, [input]);
 
   return (
     <div className={styles.container}>
@@ -117,6 +121,7 @@ const Home: NextPage = () => {
               <input type="text" value={input} placeholder="paste collection address" onChange={onChangeInput} />
               <button onClick={onClickButtonLoad}>load</button>
             </p>
+            {loaded && mappedComponent}
             {propertiesLoaded ? getPropertiesFilter() : null}
             {!propertiesLoaded && loaded ? <>NFTs have no properties</> : null}
             {filteredLoaded ? getFilteredItems() : null}
