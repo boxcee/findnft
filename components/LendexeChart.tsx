@@ -12,11 +12,10 @@ const getPoints = (collectionId: string): number => {
 };
 
 const getCategory = (points: number): string => {
-  if (points <= 4) return 'Category 1';
-  if (points <= 7) return 'Category 2';
-  if (points <= 15) return 'Category 3';
-  if (points >= 16) return 'Category 4';
-  return '';
+  if (points <= 3) return 'Single NFT';
+  if (points <= 7) return 'Explorer';
+  if (points <= 15) return 'Forerunner';
+  return 'Settler';
 };
 
 const LendexeChart: FunctionComponent = () => {
