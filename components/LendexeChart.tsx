@@ -1,6 +1,7 @@
 import {FunctionComponent, useEffect, useMemo, useState} from 'react';
 import {Soon} from 'soonaverse';
 import {Nft} from 'soonaverse/dist/interfaces/models/nft';
+import {GenericComponentProps} from './mapper';
 
 const soon = new Soon();
 
@@ -18,17 +19,17 @@ const getCategory = (points: number): string => {
   return 'Settler';
 };
 
-const LendexeChart: FunctionComponent = () => {
-  const [nfts, setNfts] = useState<Nft[]>([]);
+const LendexeChart: FunctionComponent<GenericComponentProps> = ({nfts, collectionId}) => {
+  const [remainingNfts, setRemainingNfts] = useState<Nft[]>([]);
 
   useEffect(() => {
-    soon.getNftsByCollections(collectionIds).then(nfts => {
-      setNfts(nfts);
+    soon.getNftsByCollections(lendexeCollectionIds.filter(id => id !== collectionId)).then(nfts => {
+      setRemainingNfts(nfts);
     });
-  }, []);
+  }, [collectionId]);
 
   const component = useMemo(() => {
-    const pointsByAddress = nfts.reduce((red, nft) => {
+    const pointsByAddress = [...nfts, ...remainingNfts].reduce((red, nft) => {
       if (!red[nft.owner!]) {
         red[nft.owner!] = {points: 0, category: ''};
       }
@@ -47,16 +48,16 @@ const LendexeChart: FunctionComponent = () => {
     return Object.keys(categories).map((category: string) => (
       <div key={category}>{category}: {categories[category]}</div>
     ));
-  }, [nfts]);
+  }, [remainingNfts, nfts]);
 
-  if (nfts.length === 0) {
+  if (remainingNfts.length === 0) {
     return <div style={{marginBottom: 10}}>Loading custom content...</div>;
   }
 
   return <div style={{marginBottom: 10}}>{component}</div>;
 };
 
-export const collectionIds = [
+export const lendexeCollectionIds = [
   '0x18b1de447289c85754b9b0de1e5acdbac49597be',
   '0x021b5b27ead6ec003ba8f1b605f853a5baf9a803',
   '0x7ce279815e2910a6341d6ff04d9dd7990f8252be',

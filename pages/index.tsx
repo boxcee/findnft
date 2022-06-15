@@ -102,8 +102,8 @@ const Home: NextPage = () => {
   const filteredLoaded = filtered.length > 0 && Object.keys(select).length > 0;
   const mappedComponent = useMemo(() => {
     const MappedComponent = getMappedComponent(input);
-    return <MappedComponent />;
-  }, [input]);
+    return <MappedComponent nfts={nfts} collectionId={input} />;
+  }, [input, nfts]);
 
   return (
     <div className={styles.container}>
